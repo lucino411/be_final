@@ -14,7 +14,17 @@ env = environ.Env(
 )
 
 # Take environment variables from .env file
-environ.Env.read_env()
+# Read the .env file
+# environ.Env.read_env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+# Debug print statements to check if environment variables are loaded
+# print("DB_ENGINE:", env('DB_ENGINE'))
+# print("DB_NAME:", env('DB_NAME'))
+# print("DB_USER:", env('DB_USER'))
+# print("DB_PASSWORD:", env('DB_PASSWORD'))
+# print("DB_HOST:", env('DB_HOST'))
+# print("DB_PORT:", env('DB_PORT'))
+
 
 # SECRET_KEY = 'django-insecure-&e1g(n7j@yxzln$v1er7y(s02!j44x%mx7tl#i%&q43n$l_)r*'
 SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key())
@@ -82,12 +92,28 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',       
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',       
+        'ENGINE': os.environ.get('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
+        'NAME': os.environ.get('DB_NAME', default=''),
+        'USER': os.environ.get('DB_USER', default=''),
+        'PASSWORD': os.environ.get('DB_PASSWORD', default=''),
+        'HOST': os.environ.get('DB_HOST', default=''),
+        'PORT': os.environ.get('DB_PORT', default=''),
     }
 }
+
+
+print("DB_NAME:", os.environ.get('DB_NAME'))
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -127,14 +153,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # MEDIA_ROOT = BASE_DIR / Path('media')
 LOGOUT_REDIRECT_URL = '/'
 
-if not DEBUG:
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_SECONDS = 31536000  # 1 year
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    X_FRAME_OPTIONS = "DENY"
+# if not DEBUG:
+#     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+#     SECURE_SSL_REDIRECT = True
+#     SESSION_COOKIE_SECURE = True
+#     CSRF_COOKIE_SECURE = True
+#     SECURE_BROWSER_XSS_FILTER = True
+#     SECURE_CONTENT_TYPE_NOSNIFF = True
+#     SECURE_HSTS_SECONDS = 31536000  # 1 year
+#     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+#     SECURE_HSTS_PRELOAD = True
+#     X_FRAME_OPTIONS = "DENY"
