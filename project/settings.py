@@ -1,13 +1,28 @@
+from django.core.management.utils import get_random_secret_key
 from pathlib import Path
 import os
+import environ
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 # print(f"BASE_DIR: {BASE_DIR}")
 
-SECRET_KEY = 'django-insecure-&e1g(n7j@yxzln$v1er7y(s02!j44x%mx7tl#i%&q43n$l_)r*'
+# Initialize environ
+env = environ.Env(
+    # Set casting, default value
+    DEBUG=(bool, False)
+)
 
-DEBUG=True
-ALLOWED_HOSTS = ['*']
+# Take environment variables from .env file
+environ.Env.read_env()
+
+# SECRET_KEY = 'django-insecure-&e1g(n7j@yxzln$v1er7y(s02!j44x%mx7tl#i%&q43n$l_)r*'
+SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key())
+# DEBUG=True
+DEBUG = env.bool('DEBUG', False)
+# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
+
 
 INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
