@@ -2,6 +2,7 @@ from django.core.management.utils import get_random_secret_key
 from pathlib import Path
 import os
 import environ
+import dj_database_url
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -111,19 +112,25 @@ WSGI_APPLICATION = 'project.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': env('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
+#         'NAME': env('DB_NAME', default='defaultdb'),
+#         'USER': env('DB_USER', default='doadmin'),
+#         'PASSWORD': env('DB_PASSWORD'),
+#         'HOST': env('DB_HOST', default='db-postgresql-nyc3-12415-be-final-do-user-16579933-0.c.db.ondigitalocean.com'),
+#         'PORT': env('DB_PORT', default='25060'),
+#         'OPTIONS': {
+#             'sslmode': 'require',
+#         },
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': env('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
-        'NAME': env('DB_NAME', default='defaultdb'),
-        'USER': env('DB_USER', default='doadmin'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST', default='db-postgresql-nyc3-12415-be-final-do-user-16579933-0.c.db.ondigitalocean.com'),
-        'PORT': env('DB_PORT', default='25060'),
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
-    }
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL')),
 }
+
+
 
 print("DB_NAME:", os.environ.get('DB_NAME'))
 
