@@ -100,14 +100,28 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # }
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.environ.get('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
+#         'NAME': os.environ.get('DB_NAME', default=''),
+#         'USER': os.environ.get('DB_USER', default=''),
+#         'PASSWORD': os.environ.get('DB_PASSWORD', default=''),
+#         'HOST': os.environ.get('DB_HOST', default=''),
+#         'PORT': os.environ.get('DB_PORT', default=''),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
-        'NAME': os.environ.get('DB_NAME', default=''),
-        'USER': os.environ.get('DB_USER', default=''),
-        'PASSWORD': os.environ.get('DB_PASSWORD', default=''),
-        'HOST': os.environ.get('DB_HOST', default=''),
-        'PORT': os.environ.get('DB_PORT', default=''),
+        'ENGINE': env('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
+        'NAME': env('DB_NAME', default='defaultdb'),
+        'USER': env('DB_USER', default='doadmin'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST', default='db-postgresql-nyc3-12415-be-final-do-user-16579933-0.c.db.ondigitalocean.com'),
+        'PORT': env('DB_PORT', default='25060'),
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
 
