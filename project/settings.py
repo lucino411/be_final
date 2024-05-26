@@ -111,7 +111,6 @@ DATABASES = {
     }
 }
 
-
 print("DB_NAME:", os.environ.get('DB_NAME'))
 
 
