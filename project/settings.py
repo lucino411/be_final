@@ -10,15 +10,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # print(f"BASE_DIR: {BASE_DIR}")
 
 # Initialize environ
-env = environ.Env(
-    # Set casting, default value
-    DEBUG=(bool, False)
-)
+# env = environ.Env(
+#     # Set casting, default value
+#     DEBUG=(bool, False)
+# )
 
 # Take environment variables from .env file
 # Read the .env file
 # environ.Env.read_env()
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+# environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # Debug print statements to check if environment variables are loaded
 # print("DB_ENGINE:", env('DB_ENGINE'))
 # print("DB_NAME:", env('DB_NAME'))
@@ -28,12 +28,12 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # print("DB_PORT:", env('DB_PORT'))
 
 
-# SECRET_KEY = 'django-insecure-&e1g(n7j@yxzln$v1er7y(s02!j44x%mx7tl#i%&q43n$l_)r*'
-SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key())
-# DEBUG=True
-DEBUG = env.bool('DEBUG', False)
-# ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
+SECRET_KEY = 'django-insecure-&e1g(n7j@yxzln$v1er7y(s02!j44x%mx7tl#i%&q43n$l_)r*'
+# SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key())
+DEBUG=True
+# DEBUG = env.bool('DEBUG', False)
+ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 
 INSTALLED_APPS = [
@@ -94,12 +94,35 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',       
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',       
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'be_final_db',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '',     
     }
 }
+
+# DATABASES = {
+    # 'default': {
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': 'your_db_name',
+        # 'USER': 'your_db_user',
+        # 'PASSWORD': 'your_password',
+        # 'HOST': 'localhost',
+        # 'PORT': '',
+    # }
+# }
+
 
 
 # DATABASES = {
