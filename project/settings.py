@@ -32,7 +32,8 @@ SECRET_KEY = 'django-insecure-&e1g(n7j@yxzln$v1er7y(s02!j44x%mx7tl#i%&q43n$l_)r*
 # SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key())
 DEBUG=True
 # DEBUG = env.bool('DEBUG', False)
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['134.209.212.151', 'localhost', '0.0.0.0']
 # ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 
@@ -104,9 +105,9 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'be_final_db',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'NAME': 'be_final_bd',
+        'USER': 'blasil',
+        'PASSWORD': 'America123',
         'HOST': 'localhost',
         'PORT': '',     
     }
