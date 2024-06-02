@@ -114,3 +114,7 @@ class SubTask(models.Model):
     Last Modified By
 
 
+
+sudo apt install python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx curl
+sudo apt install python3-venv python3-dev libpq-dev postgresql postgresql-contrib nginx curl
+
