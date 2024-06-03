@@ -1,5 +1,7 @@
-be_main
+be_final
 ├─ .env
+├─ .template.env
+├─ Procfile
 ├─ administration
 │  ├─ core
 │  │  ├─ admin.py
@@ -51,6 +53,9 @@ be_main
 │     ├─ tests.py
 │     ├─ urls.py
 │     └─ views.py
+├─ db.sqlite3
+├─ env
+│  └─ pyvenv.cfg
 ├─ media
 │  └─ organizations
 │     └─ 1
@@ -116,14 +121,15 @@ be_main
 │     ├─ utils.py
 │     └─ views.py
 ├─ project
-│  ├─ .env
-│  ├─ .template.env
 │  ├─ asgi.py
-│  ├─ settings copy 2.py
-│  ├─ settings copy 3.py
-│  ├─ settings copy.py
 │  ├─ settings.py
+│  ├─ temp
+│  │  ├─ settings copy 2.py
+│  │  ├─ settings copy 3.py
+│  │  ├─ settings copy 4.py
+│  │  └─ settings copy.py
 │  └─ urls.py
+├─ requirements.txt
 ├─ static
 │  ├─ css
 │  │  ├─ be_crm.css
