@@ -119,22 +119,22 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'be_final_bd',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'USER': 'blasil',
+        'PASSWORD': 'America123',
         'HOST': 'localhost',
         'PORT': '',     
     }
 }
 
 # DATABASES = {
-    # 'default': {
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'your_db_name',
-        # 'USER': 'your_db_user',
-        # 'PASSWORD': 'your_password',
-        # 'HOST': 'localhost',
-        # 'PORT': '',
-    # }
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'your_db_name',
+#         'USER': 'your_db_user',
+#         'PASSWORD': 'your_password',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
 # }
 
 
