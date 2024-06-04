@@ -30,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-&e1g(n7j@yxzln$v1er7y(s02!j44x%mx7tl#i%&q43n$l_)r*'
 # SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key())
-DEBUG=False
+DEBUG=True
 # DEBUG = env.bool('DEBUG', False)
 # ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = ['161.35.52.52', '134.209.212.151', 'localhost', '127.0.0.1']
@@ -117,16 +117,16 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # }
 
 #database droplet blasil
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'be_final_bd',
-        'USER': 'blasil',
-        'PASSWORD': 'America123',
-        'HOST': 'localhost',
-        'PORT': '',     
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'be_final_bd',
+#         'USER': 'blasil',
+#         'PASSWORD': 'America123',
+#         'HOST': 'localhost',
+#         'PORT': '',     
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -170,9 +170,9 @@ DATABASES = {
 #     'default': dj_database_url.parse(os.environ.get('DATABASE_URL')),
 # }
 
-# DATABASES = {
-#     'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
-# }
+DATABASES = {
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+}
 
 
 
