@@ -10,15 +10,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # print(f"BASE_DIR: {BASE_DIR}")
 
 # Initialize environ
-# env = environ.Env(
-#     # Set casting, default value
-#     DEBUG=(bool, False)
-# )
+env = environ.Env(
+    # Set casting, default value
+    DEBUG=(bool, False)
+)
 
 # Take environment variables from .env file
 # Read the .env file
 # environ.Env.read_env()
-# environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # Debug print statements to check if environment variables are loaded
 # print("DB_ENGINE:", env('DB_ENGINE'))
 # print("DB_NAME:", env('DB_NAME'))
@@ -28,15 +28,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # print("DB_PORT:", env('DB_PORT'))
 
 
-SECRET_KEY = 'django-insecure-&e1g(n7j@yxzln$v1er7y(s02!j44x%mx7tl#i%&q43n$l_)r*'
-# SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key())
-DEBUG=False
+# SECRET_KEY = 'django-insecure-&e1g(n7j@yxzln$v1er7y(s02!j44x%mx7tl#i%&q43n$l_)r*'
+SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key())
+DEBUG=True
 # DEBUG = env.bool('DEBUG', False)
 # ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = ['161.35.52.52', '134.209.212.151', 'localhost', '127.0.0.1']
-ALLOWED_HOSTS = ['134.209.212.151', 'becrm.site', 'www.becrm.site', 'localhost', '127.0.0.1']
+# ALLOWED_HOSTS = ['134.209.212.151', 'becrm.site', 'www.becrm.site', 'localhost', '127.0.0.1']
 
-# ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 
 INSTALLED_APPS = [
@@ -117,16 +117,16 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # }
 
 #database droplet blasil
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'be_final_bd',
-        'USER': 'blasil',
-        'PASSWORD': 'America123',
-        'HOST': 'localhost',
-        'PORT': '',     
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'be_final_bd',
+#         'USER': 'blasil',
+#         'PASSWORD': 'America123',
+#         'HOST': 'localhost',
+#         'PORT': '',     
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -171,29 +171,28 @@ DATABASES = {
 # }
 
 # DATABASE localhost development
-# DATABASES = {
-#     'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
-# }
+DATABASES = {
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+}
 
 
+DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 
-# DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+if DEVELOPMENT_MODE is True:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
+    }
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+    if os.getenv("DATABASE_URL", None) is None:
+        raise Exception("DATABASE_URL environment variable not defined")
+    DATABASES = {
+        "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+    }
 
-# if DEVELOPMENT_MODE is True:
-#     DATABASES = {
-#         "default": {
-#             "ENGINE": "django.db.backends.sqlite3",
-#             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-#         }
-#     }
-# elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-#     if os.getenv("DATABASE_URL", None) is None:
-#         raise Exception("DATABASE_URL environment variable not defined")
-#     DATABASES = {
-#         "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
-#     }
-
-# print("DB_NAME:", os.environ.get('DB_NAME'))
+print("DB_NAME:", os.environ.get('DB_NAME'))
 
 
 AUTH_PASSWORD_VALIDATORS = [
