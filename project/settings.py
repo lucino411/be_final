@@ -30,14 +30,13 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECRET_KEY = 'django-insecure-&e1g(n7j@yxzln$v1er7y(s02!j44x%mx7tl#i%&q43n$l_)r*'
 SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key())
-DEBUG=True
+# DEBUG=True
 # DEBUG = env.bool('DEBUG', False)
 # ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = ['161.35.52.52', '134.209.212.151', 'localhost', '127.0.0.1']
 # ALLOWED_HOSTS = ['134.209.212.151', 'becrm.site', 'www.becrm.site', 'localhost', '127.0.0.1']
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
-
 
 INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
