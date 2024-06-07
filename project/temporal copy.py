@@ -2,35 +2,21 @@ from django.core.management.utils import get_random_secret_key
 from pathlib import Path
 import os
 import environ
-import dj_database_url
-# import sys
+import dj_database_url # type: ignore
+import sys
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
+# Initialize environ
 env = environ.Env(
     DEBUG=(bool, False)
 )
-DEBUG = env('DEBUG')
-DEBUG = os.environ.get('DEBUG', 'False').lower() in ['true', '1', 't']
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key())
-DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False").lower() == "true"
-DATABASE_URL = os.getenv("DATABASE_URL")
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
+DEBUG = env.bool('DEBUG', False)
 
-if DEVELOPMENT_MODE and not DATABASE_URL:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-        }
-    }
-elif DATABASE_URL:
-    DATABASES = {
-        "default": dj_database_url.parse(DATABASE_URL),
-    }
-else:
-    raise Exception("DATABASE_URL environment variable not defined")
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
@@ -90,6 +76,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
+DATABASES = {
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+}
+
+DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+
+if DEVELOPMENT_MODE is True:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
+    }
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+    if os.getenv("DATABASE_URL", None) is None:
+        raise Exception("DATABASE_URL environment variable not defined")
+    DATABASES = {
+        "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+    }
+
+print("DB_NAME:", os.environ.get('DB_NAME'))
+
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -121,25 +130,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Directorio para collectst
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 LOGOUT_REDIRECT_URL = '/'
 
-# if not DEBUG:
-#     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-#     SECURE_SSL_REDIRECT = True
-#     SESSION_COOKIE_SECURE = True
-#     CSRF_COOKIE_SECURE = True
-#     SECURE_BROWSER_XSS_FILTER = True
-#     SECURE_CONTENT_TYPE_NOSNIFF = True
-#     SECURE_HSTS_SECONDS = 31536000  # 1 year
-#     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-#     SECURE_HSTS_PRELOAD = True
-#     X_FRAME_OPTIONS = "DENY"
 
 
-# print(f"BASE_DIR: {BASE_DIR}")
-# print("DEBUG:", env('DEBUG'))
-# print("SECRET_KEY:", SECRET_KEY)
-# print("ALLOWED_HOSTS:", ALLOWED_HOSTS)
-# print("DEVELOPMENT_MODE:", DEVELOPMENT_MODE)
-# print("DATABASE_URL:", os.environ.get('DATABASE_URL'))
+
+
+
+DEBUG=True
+SECRET_KEY=Hzh2+/3jXzzuowHF0HTnm96/WqEBKDPPF7y7eYMOsu9eZgV2rsk+2t3mHbb0Qn/JcQdMYUArPqBAlkvR54Tu+Q==
+ALLOWED_HOSTS='134.209.212.151', 'becrm.site', 'www.becrm.site', 'localhost', '127.0.0.1'
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/be_final
+DEVELOPMENT_MODE=True

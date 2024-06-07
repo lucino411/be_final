@@ -1,36 +1,39 @@
-from django.core.management.utils import get_random_secret_key
 from pathlib import Path
+# import environ # type: ignore
 import os
-import environ
-import dj_database_url
-# import sys
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+print(f"BASE_DIR: {BASE_DIR}")
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-env = environ.Env(
-    DEBUG=(bool, False)
-)
-DEBUG = env('DEBUG')
-DEBUG = os.environ.get('DEBUG', 'False').lower() in ['true', '1', 't']
-SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key())
-DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False").lower() == "true"
-DATABASE_URL = os.getenv("DATABASE_URL")
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
+# Start Environ
+# env = environ.Env()
+# Take environment variables from .env file
+# environ.Env.read_env()  
 
-if DEVELOPMENT_MODE and not DATABASE_URL:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-        }
-    }
-elif DATABASE_URL:
-    DATABASES = {
-        "default": dj_database_url.parse(DATABASE_URL),
-    }
-else:
-    raise Exception("DATABASE_URL environment variable not defined")
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = env.str('SECRET_KEY')
+SECRET_KEY = 'django-insecure-&e1g(n7j@yxzln$v1er7y(s02!j44x%mx7tl#i%&q43n$l_)r*'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = env.bool('DEBUG', False)
+DEBUG=True
+
+
+# if DEBUG:
+#     ALLOWED_HOSTS = ['*']
+# else:
+#     ALLOWED_HOSTS = tuple(env.list('ALLOWED_HOSTS', default=[]))
+# print(ALLOWED_HOSTS)
+
+# ALLOWED_HOSTS = tuple(env.list('ALLOWED_HOSTS', default=[]))
+ALLOWED_HOSTS = ['*']
+
+# Application definition
 
 INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
@@ -90,6 +93,33 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
+# Database
+# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+
+# DATABASES = {
+#     'default': env.db('DATABASE_URL')
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': env('DB_ENGINE', default='django.db.backends.postgresql_psycopg2'),
+#         'NAME': env('DB_NAME', default=''),
+#         'USER': env('DB_USER', default=''),
+#         'PASSWORD': env('DB_PASSWORD', default=''),
+#         'HOST': env('DB_HOST', default=''),
+#         'PORT': env('DB_PORT', default=''),
+#     }
+# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',       
+    }
+}
+
+# Password validation
+# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -105,41 +135,52 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+# Internationalization
+# https://docs.djangoproject.com/en/4.2/topics/i18n/
+
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+# https://docs.djangoproject.com/en/4.2/howto/static-files/
+# Static files (CSS, JavaScript, Images)
+
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),
+# ]
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
+# STATIC_ROOT = "static_root"
+# STATIC_ROOT = BASE_DIR / Path("staticfiles")
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Directorio para collectstatic en producción
+
+# STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# STORAGES = {
+#     "staticfiles": {
+#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+#     },
+# }
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / Path('media')
 LOGOUT_REDIRECT_URL = '/'
 
-# if not DEBUG:
-#     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-#     SECURE_SSL_REDIRECT = True
-#     SESSION_COOKIE_SECURE = True
-#     CSRF_COOKIE_SECURE = True
-#     SECURE_BROWSER_XSS_FILTER = True
-#     SECURE_CONTENT_TYPE_NOSNIFF = True
-#     SECURE_HSTS_SECONDS = 31536000  # 1 year
-#     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-#     SECURE_HSTS_PRELOAD = True
-#     X_FRAME_OPTIONS = "DENY"
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-
-# print(f"BASE_DIR: {BASE_DIR}")
-# print("DEBUG:", env('DEBUG'))
-# print("SECRET_KEY:", SECRET_KEY)
-# print("ALLOWED_HOSTS:", ALLOWED_HOSTS)
-# print("DEVELOPMENT_MODE:", DEVELOPMENT_MODE)
-# print("DATABASE_URL:", os.environ.get('DATABASE_URL'))
+# SECURE_HSTS_SECONDS = 31536000   # 1 año en segundos (opcional si usas HSTS)
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True   # (opcional si usas HSTS)
+# SECURE_HSTS_PRELOAD = True   # (opcional si usas HSTS)
+# SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
